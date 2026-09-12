@@ -1,0 +1,183 @@
+/* Layout Grids and Responsive Rules */
+
+/* Main Shell */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--bg-base);
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+  max-width: 1720px;
+  margin: 0 auto;
+  padding: 20px 24px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Header Grid */
+.header-bar {
+  height: var(--header-height);
+  background: #0d121b;
+  border-bottom: 1px solid var(--card-border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+/* 4 Summary Cards Grid */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* Forecast Timeline Strip */
+.timeline-container {
+  overflow-x: auto;
+  padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.timeline-strip {
+  display: flex;
+  gap: 12px;
+  min-width: max-content;
+}
+
+/* Primary Dual Column (Map/Globe & Side Panel) */
+.dashboard-main-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* AI and Historical Analytics Grid */
+.dashboard-lower-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr;
+  gap: 20px;
+}
+
+/* Map/Globe Display Container */
+.geo-visualizer-container {
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Region List & Detail Panel */
+.regions-panel-container {
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Historical Analytics Chart Grid */
+.charts-wrapper {
+  width: 100%;
+  min-height: 320px;
+}
+
+/* Footer Disclaimer */
+.footer-bar {
+  border-top: 1px solid var(--card-border);
+  background: #0b0f16;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Laptop (1024px to 1280px) */
+@media (max-width: 1280px) {
+  .dashboard-main-grid {
+    grid-template-columns: 1.4fr 1fr;
+  }
+  .dashboard-lower-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tablet (768px to 1023px) */
+@media (max-width: 1023px) {
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .dashboard-main-grid {
+    grid-template-columns: 1fr;
+  }
+  .geo-visualizer-container {
+    min-height: 460px;
+  }
+  .regions-panel-container {
+    min-height: auto;
+  }
+  .main-content {
+    padding: 16px;
+    gap: 18px;
+  }
+  .header-nav {
+    display: none;
+  }
+}
+
+/* Mobile (< 768px down to 375px) */
+@media (max-width: 767px) {
+  .header-bar {
+    padding: 0 14px;
+    height: 58px;
+  }
+  .main-content {
+    padding: 12px 10px 40px;
+    gap: 16px;
+  }
+  .summary-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .geo-visualizer-container {
+    min-height: 380px;
+  }
+  .dashboard-lower-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-bar {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    padding: 16px 12px;
+  }
+  .metric-value-lg {
+    font-size: 26px;
+  }
+  .fg-floating-glass {
+    max-width: 92vw !important;
+    left: 4% !important;
+    right: 4% !important;
+  }
+}
+
+/* Accessibility: reduce motion when user prefers */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
