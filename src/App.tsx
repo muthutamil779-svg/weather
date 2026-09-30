@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { RegionForecast, RiskTier } from './types/forecast';
+import { RegionForecast } from './types/forecast';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { DashboardTab } from './components/layout/Navigation';
@@ -13,13 +13,14 @@ import { RegionListPanel } from './components/risk-map/RegionListPanel';
 import { WeatherGlobe } from './components/globe/WeatherGlobe';
 import { AIForecastAnalysis } from './components/ai-analysis/AIForecastAnalysis';
 import { HistoricalAnalytics } from './components/historical/HistoricalAnalytics';
+import { PipelineAuditView } from './components/pipeline-audit/PipelineAuditView';
 import { LoadingSkeleton } from './components/common/LoadingSkeleton';
 import { ErrorState } from './components/common/ErrorState';
 import { useForecastData } from './hooks/useForecastData';
 import { useRegions } from './hooks/useRegions';
 import { useWeatherSystems } from './hooks/useWeatherSystems';
 import { useWebGLSupport } from './hooks/useWebGLSupport';
-import { Globe, Map, Sparkles, Layers, ShieldAlert } from 'lucide-react';
+import { Globe, Map } from 'lucide-react';
 
 export const App: React.FC = () => {
   const { data, loading, error, isRefreshing, refetch, triggerRefresh } = useForecastData();
@@ -33,16 +34,13 @@ export const App: React.FC = () => {
   const {
     selectedRegionId,
     setSelectedRegionId,
-    selectedRegion,
     filterRisk,
-    setFilterRisk,
-    filteredRegions
+    setFilterRisk
   } = useRegions(data?.regions);
 
   const {
     selectedSystemId,
-    setSelectedSystemId,
-    selectedSystem
+    setSelectedSystemId
   } = useWeatherSystems(data?.weatherSystems);
 
   // When day is changed, update region forecasts according to that lead time
@@ -178,6 +176,11 @@ export const App: React.FC = () => {
             <HistoricalAnalytics charts={data.historicalCharts} />
             <ConfidenceSurface3D timeline={data.timeline} />
           </div>
+        )}
+
+        {/* Project Better Tomorrow — 35% Milestone & Pipeline Audit Tab */}
+        {activeTab === 'pipeline-audit' && (
+          <PipelineAuditView />
         )}
 
         {/* Dashboard (Full Operational View) */}

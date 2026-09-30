@@ -1,7 +1,7 @@
 import React from 'react';
-import { LayoutDashboard, Compass, MapPin, BrainCircuit, BarChart3, Settings } from 'lucide-react';
+import { LayoutDashboard, Compass, MapPin, BrainCircuit, BarChart3, Settings, ShieldCheck } from 'lucide-react';
 
-export type DashboardTab = 'dashboard' | 'forecast' | 'risk-map' | 'ai-explanation' | 'historical' | 'settings';
+export type DashboardTab = 'dashboard' | 'forecast' | 'risk-map' | 'ai-explanation' | 'historical' | 'pipeline-audit' | 'settings';
 
 interface NavigationProps {
   activeTab: DashboardTab;
@@ -16,6 +16,7 @@ export const NAV_ITEMS: Array<{ id: DashboardTab; label: string; icon: React.Rea
   { id: 'risk-map', label: 'Risk Map', icon: <MapPin size={16} /> },
   { id: 'ai-explanation', label: 'AI Explanation', icon: <BrainCircuit size={16} /> },
   { id: 'historical', label: 'Historical Data', icon: <BarChart3 size={16} /> },
+  { id: 'pipeline-audit', label: 'Pipeline & Audit', icon: <ShieldCheck size={16} /> },
   { id: 'settings', label: 'Settings', icon: <Settings size={16} /> }
 ];
 

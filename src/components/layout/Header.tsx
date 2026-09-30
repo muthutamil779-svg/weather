@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Navigation, DashboardTab } from './Navigation';
-import { Radio, RefreshCw, Menu, X, ShieldAlert, Clock, Calendar } from 'lucide-react';
+import { Radio, RefreshCw, Menu, X, Clock, Calendar, ShieldCheck } from 'lucide-react';
 import { formatApiTimestamp } from '../../utils/forecastUtils';
 
 interface HeaderProps {
@@ -165,6 +165,28 @@ export const Header: React.FC<HeaderProps> = ({
           <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--risk-low)' }} />
           <span>IMD / NCMRWF Live</span>
         </div>
+
+        {/* 35% Milestone & Audit Quick Access Button */}
+        <button
+          onClick={() => onSelectTab('pipeline-audit')}
+          title="Inspect 35% Milestone Evidence & Pipeline Architecture"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '4px 10px',
+            borderRadius: 'var(--radius-full)',
+            background: activeTab === 'pipeline-audit' ? 'rgba(59, 156, 255, 0.2)' : 'rgba(59, 156, 255, 0.08)',
+            border: '1px solid rgba(59, 156, 255, 0.35)',
+            fontSize: '11px',
+            color: 'var(--accent-cyan)',
+            fontWeight: 600,
+            cursor: 'pointer'
+          }}
+        >
+          <ShieldCheck size={13} style={{ color: 'var(--accent-blue)' }} />
+          <span>35% Milestone Verified</span>
+        </button>
 
         {/* Mobile Hamburger Toggle */}
         <button
