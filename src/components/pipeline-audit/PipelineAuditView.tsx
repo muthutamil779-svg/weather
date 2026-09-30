@@ -54,7 +54,7 @@ export const PipelineAuditView: React.FC = () => {
             style={{ padding: '6px 12px', fontSize: '11.5px', display: 'flex', alignItems: 'center', gap: '6px' }}
           >
             <Award size={14} />
-            <span>35% Milestone Evidence</span>
+            <span>70% Milestone Evidence</span>
           </button>
 
           <button

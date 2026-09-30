@@ -14,6 +14,9 @@ import { WeatherGlobe } from './components/globe/WeatherGlobe';
 import { AIForecastAnalysis } from './components/ai-analysis/AIForecastAnalysis';
 import { HistoricalAnalytics } from './components/historical/HistoricalAnalytics';
 import { PipelineAuditView } from './components/pipeline-audit/PipelineAuditView';
+import { EnsemblePlumeStudio } from './components/ensemble/EnsemblePlumeStudio';
+import { OperationalBulletinModal } from './components/bulletin/OperationalBulletinModal';
+import { ScenarioSandboxModal, SynopticScenarioId } from './components/simulation/ScenarioSandboxModal';
 import { LoadingSkeleton } from './components/common/LoadingSkeleton';
 import { ErrorState } from './components/common/ErrorState';
 import { useForecastData } from './hooks/useForecastData';
@@ -27,6 +30,9 @@ export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<DashboardTab>('dashboard');
   const [selectedDay, setSelectedDay] = useState<number>(5); // Day 5 (high divergence)
   const [geoMode, setGeoMode] = useState<'map' | 'globe'>('map');
+  const [isBulletinOpen, setIsBulletinOpen] = useState<boolean>(false);
+  const [isSandboxOpen, setIsSandboxOpen] = useState<boolean>(false);
+  const [activeScenario, setActiveScenario] = useState<SynopticScenarioId>('baseline');
 
   const { hasWebGL } = useWebGLSupport();
 
@@ -42,6 +48,47 @@ export const App: React.FC = () => {
     selectedSystemId,
     setSelectedSystemId
   } = useWeatherSystems(data?.weatherSystems);
+
+  // 70% Milestone: Synoptic Scenario Stress-Test Controller
+  const handleApplyScenario = (scenario: SynopticScenarioId) => {
+    setActiveScenario(scenario);
+    if (!data) return;
+
+    if (scenario === 'cyclogenesis') {
+      data.forecastSummary.confidence = 58;
+      data.forecastSummary.bustProbability = 42;
+      data.forecastSummary.highRiskRegions = 6;
+      data.regions = data.regions.map(r => {
+        if (r.id === 'OD' || r.id === 'MP' || r.id === 'MH') {
+          return { ...r, riskTier: 'high', confidence: 45, bustProbability: 55 };
+        }
+        return r;
+      });
+      data.aiInsight.summary = 'CRITICAL ALERT: Rapid cyclogenesis in Bay of Bengal (BOB-02 deepening to 988 hPa). Severe multi-model track disparity (+140km) elevates forecast bust risk across eastern and central India.';
+    } else if (scenario === 'monsoon_break') {
+      data.forecastSummary.confidence = 62;
+      data.forecastSummary.bustProbability = 38;
+      data.regions = data.regions.map(r => {
+        if (r.id === 'MH' || r.id === 'MP' || r.id === 'TG') {
+          return { ...r, riskTier: 'high', confidence: 50, bustProbability: 50 };
+        }
+        return r;
+      });
+      data.aiInsight.summary = 'WARNING: Monsoon break phase triggered. Trough shifted to Himalayan foothills. Parameterization failure in global models predicts phantom precipitation over Central India.';
+    } else if (scenario === 'western_disturbance') {
+      data.forecastSummary.confidence = 64;
+      data.forecastSummary.bustProbability = 36;
+      data.regions = data.regions.map(r => {
+        if (r.id === 'HP' || r.id === 'UT') {
+          return { ...r, riskTier: 'high', confidence: 48, bustProbability: 52 };
+        }
+        return r;
+      });
+      data.aiInsight.summary = 'ALERT: Mid-latitude Western Disturbance surge over Western Himalayas. Freezing level elevation divergence exceeds 800m, causing acute orographic bust probability.';
+    } else {
+      triggerRefresh();
+    }
+  };
 
   // When day is changed, update region forecasts according to that lead time
   const activeDayRegions: RegionForecast[] = useMemo(() => {
@@ -96,13 +143,15 @@ export const App: React.FC = () => {
 
   return (
     <div className="app-container">
-      {/* 1. Header Bar */}
+      {/* 1. Header Bar with 70% Action Controls */}
       <Header
         activeTab={activeTab}
         onSelectTab={setActiveTab}
         updatedAt={data.updatedAt}
         isRefreshing={isRefreshing}
         onTriggerRefresh={triggerRefresh}
+        onOpenBulletin={() => setIsBulletinOpen(true)}
+        onOpenSandbox={() => setIsSandboxOpen(true)}
       />
 
       {/* Main Container */}
@@ -125,13 +174,19 @@ export const App: React.FC = () => {
               selectedDay={selectedDay}
               onSelectDay={setSelectedDay}
             />
+            {/* 70% Milestone Multi-Model Ensemble Plume Studio */}
+            <EnsemblePlumeStudio
+              plumes={data.ensemblePlumes}
+              models={data.modelMetrics}
+              shapValues={data.shapValues}
+            />
             <ConfidenceSurface3D timeline={data.timeline} />
             <div className="dashboard-lower-grid">
               <AIForecastAnalysis
                 aiInsight={data.aiInsight}
                 overallConfidence={data.forecastSummary.confidence}
               />
-              <HistoricalAnalytics charts={data.historicalCharts} />
+              <HistoricalAnalytics charts={data.historicalCharts} stations={data.stationObservations} />
             </div>
           </div>
         )}
@@ -173,12 +228,12 @@ export const App: React.FC = () => {
         {/* Historical Data Tab Specific View */}
         {activeTab === 'historical' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <HistoricalAnalytics charts={data.historicalCharts} />
+            <HistoricalAnalytics charts={data.historicalCharts} stations={data.stationObservations} />
             <ConfidenceSurface3D timeline={data.timeline} />
           </div>
         )}
 
-        {/* Project Better Tomorrow — 35% Milestone & Pipeline Audit Tab */}
+        {/* Project Better Tomorrow — Milestone & Pipeline Audit Tab */}
         {activeTab === 'pipeline-audit' && (
           <PipelineAuditView />
         )}
@@ -271,22 +326,44 @@ export const App: React.FC = () => {
               </div>
             </div>
 
-            {/* 6. 2D/3D Confidence Topography Surface */}
+            {/* 6. 70% Milestone: Multi-Model Ensemble Plume Studio */}
+            <EnsemblePlumeStudio
+              plumes={data.ensemblePlumes}
+              models={data.modelMetrics}
+              shapValues={data.shapValues}
+            />
+
+            {/* 7. 2D/3D Confidence Topography Surface */}
             <ConfidenceSurface3D timeline={data.timeline} />
 
-            {/* 7. Lower Grid: AI Forecast Analysis & Historical Analytics */}
+            {/* 8. Lower Grid: AI Forecast Analysis & Historical Analytics */}
             <div className="dashboard-lower-grid">
               <AIForecastAnalysis
                 aiInsight={data.aiInsight}
                 overallConfidence={data.forecastSummary.confidence}
               />
-              <HistoricalAnalytics charts={data.historicalCharts} />
+              <HistoricalAnalytics charts={data.historicalCharts} stations={data.stationObservations} />
             </div>
           </>
         )}
       </main>
 
-      {/* 8. Footer Bar */}
+      {/* 70% Operational Early Warning Action Bulletin Modal */}
+      <OperationalBulletinModal
+        bulletins={data.operationalBulletins}
+        isOpen={isBulletinOpen}
+        onClose={() => setIsBulletinOpen(false)}
+      />
+
+      {/* 70% Synoptic Scenario Stress-Test Sandbox Modal */}
+      <ScenarioSandboxModal
+        isOpen={isSandboxOpen}
+        onClose={() => setIsSandboxOpen(false)}
+        activeScenario={activeScenario}
+        onApplyScenario={handleApplyScenario}
+      />
+
+      {/* 9. Footer Bar */}
       <Footer />
     </div>
   );

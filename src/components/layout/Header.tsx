@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Navigation, DashboardTab } from './Navigation';
-import { Radio, RefreshCw, Menu, X, Clock, Calendar, ShieldCheck } from 'lucide-react';
+import { Radio, RefreshCw, Menu, X, Clock, Calendar, ShieldCheck, FileText, Sliders } from 'lucide-react';
 import { formatApiTimestamp } from '../../utils/forecastUtils';
 
 interface HeaderProps {
@@ -9,6 +9,8 @@ interface HeaderProps {
   updatedAt: string;
   isRefreshing: boolean;
   onTriggerRefresh: () => void;
+  onOpenBulletin?: () => void;
+  onOpenSandbox?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -16,7 +18,9 @@ export const Header: React.FC<HeaderProps> = ({
   onSelectTab,
   updatedAt,
   isRefreshing,
-  onTriggerRefresh
+  onTriggerRefresh,
+  onOpenBulletin,
+  onOpenSandbox
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState<string>('');
@@ -166,27 +170,75 @@ export const Header: React.FC<HeaderProps> = ({
           <span>IMD / NCMRWF Live</span>
         </div>
 
-        {/* 35% Milestone & Audit Quick Access Button */}
+        {/* 70% Milestone & Audit Quick Access Button */}
         <button
           onClick={() => onSelectTab('pipeline-audit')}
-          title="Inspect 35% Milestone Evidence & Pipeline Architecture"
+          title="Inspect 70% Milestone Evidence & Pipeline Architecture"
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
             padding: '4px 10px',
             borderRadius: 'var(--radius-full)',
-            background: activeTab === 'pipeline-audit' ? 'rgba(59, 156, 255, 0.2)' : 'rgba(59, 156, 255, 0.08)',
-            border: '1px solid rgba(59, 156, 255, 0.35)',
+            background: activeTab === 'pipeline-audit' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.08)',
+            border: '1px solid rgba(34, 197, 94, 0.35)',
             fontSize: '11px',
-            color: 'var(--accent-cyan)',
+            color: 'var(--risk-low)',
             fontWeight: 600,
             cursor: 'pointer'
           }}
         >
-          <ShieldCheck size={13} style={{ color: 'var(--accent-blue)' }} />
-          <span>35% Milestone Verified</span>
+          <ShieldCheck size={13} style={{ color: 'var(--risk-low)' }} />
+          <span>70% Milestone Certified</span>
         </button>
+
+        {/* Early Warning Bulletin Trigger Button */}
+        {onOpenBulletin && (
+          <button
+            onClick={onOpenBulletin}
+            title="Generate Official IMD / SDMA Early Warning Action Bulletin"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '4px 10px',
+              borderRadius: 'var(--radius-full)',
+              background: 'rgba(239, 68, 68, 0.1)',
+              border: '1px solid rgba(239, 68, 68, 0.35)',
+              fontSize: '11px',
+              color: 'var(--risk-high)',
+              fontWeight: 600,
+              cursor: 'pointer'
+            }}
+          >
+            <FileText size={13} />
+            <span>Early Warning Bulletin</span>
+          </button>
+        )}
+
+        {/* Scenario Stress-Test Sandbox Trigger Button */}
+        {onOpenSandbox && (
+          <button
+            onClick={onOpenSandbox}
+            title="Inject Severe Weather Perturbation Scenarios"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '4px 10px',
+              borderRadius: 'var(--radius-full)',
+              background: 'rgba(59, 156, 255, 0.1)',
+              border: '1px solid rgba(59, 156, 255, 0.35)',
+              fontSize: '11px',
+              color: 'var(--accent-blue)',
+              fontWeight: 600,
+              cursor: 'pointer'
+            }}
+          >
+            <Sliders size={13} />
+            <span>Stress-Test Sandbox</span>
+          </button>
+        )}
 
         {/* Mobile Hamburger Toggle */}
         <button

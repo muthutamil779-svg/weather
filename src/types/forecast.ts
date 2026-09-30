@@ -98,6 +98,68 @@ export interface HistoricalCharts {
   }>;
 }
 
+export interface EnsemblePlumePoint {
+  day: number;
+  date: string;
+  ecmwfMean: number;
+  gfsMean: number;
+  ncmrwfMean: number;
+  p10: number;
+  p25: number;
+  p75: number;
+  p90: number;
+  observed?: number;
+}
+
+export interface ModelComparisonMetric {
+  modelName: string;
+  institution: string;
+  memberCount: number;
+  gridResolution: string;
+  rmse24hr: number;
+  trackErrorKm: number;
+  biasMm: number;
+  divergenceContributionPct: number;
+}
+
+export interface ShapValue {
+  feature: string;
+  category: 'synoptic' | 'thermodynamic' | 'kinematic' | 'orographic';
+  importance: number; // 0 - 100
+  impactDirection: 'positive_bust_risk' | 'negative_bust_risk';
+  description: string;
+}
+
+export interface OperationalBulletin {
+  id: string;
+  bulletinNumber: string;
+  issueTime: string;
+  validUntil: string;
+  synopticSituation: string;
+  affectedRegions: string[];
+  severity: RiskTier;
+  alertColor: string;
+  ndrfDeploymentNotice: string;
+  districtAdvisories: Array<{
+    district: string;
+    warningLevel: 'Red Alert' | 'Orange Alert' | 'Yellow Alert' | 'Green Watch';
+    actionProtocol: string;
+  }>;
+}
+
+export interface StationObservation {
+  id: string;
+  name: string;
+  subdivision: string;
+  coordinates: [number, number];
+  observedRainfallMm: number;
+  rawGfsQpfMm: number;
+  rawEcmwfQpfMm: number;
+  correctedQpfMm: number;
+  biasVarianceMm: number;
+  verificationStatus: 'verified' | 'provisional';
+}
+
 export interface ForecastSummary {
   confidence: number;
   bustProbability: number;
@@ -125,4 +187,14 @@ export interface ForecastData {
   aiInsight: AIInsight;
 
   historicalCharts: HistoricalCharts;
+
+  ensemblePlumes?: EnsemblePlumePoint[];
+
+  modelMetrics?: ModelComparisonMetric[];
+
+  shapValues?: ShapValue[];
+
+  operationalBulletins?: OperationalBulletin[];
+
+  stationObservations?: StationObservation[];
 }

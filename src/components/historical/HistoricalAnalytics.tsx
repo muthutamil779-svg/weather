@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import { HistoricalCharts } from '../../types/forecast';
+import { HistoricalCharts, StationObservation } from '../../types/forecast';
 import { ForecastErrorChart } from './ForecastErrorChart';
 import { RainfallObsVsPredChart } from './RainfallObsVsPredChart';
 import { TempWindErrorChart } from './TempWindErrorChart';
 import { ConfidenceVsActualChart } from './ConfidenceVsActualChart';
-import { History, CloudRain, Thermometer, Wind, Target } from 'lucide-react';
+import { StationObservationExplorer } from '../bias-correction/StationObservationExplorer';
+import { History, CloudRain, Thermometer, Wind, Target, Radio } from 'lucide-react';
 
-type HistoricalTab = 'error' | 'rainfall' | 'temp' | 'wind' | 'calibration';
+type HistoricalTab = 'error' | 'rainfall' | 'temp' | 'wind' | 'calibration' | 'stations';
 
 interface HistoricalAnalyticsProps {
   charts: HistoricalCharts;
+  stations?: StationObservation[];
 }
 
-export const HistoricalAnalytics: React.FC<HistoricalAnalyticsProps> = ({ charts }) => {
+export const HistoricalAnalytics: React.FC<HistoricalAnalyticsProps> = ({ charts, stations = [] }) => {
   const [activeTab, setActiveTab] = useState<HistoricalTab>('error');
 
   return (
@@ -63,6 +65,13 @@ export const HistoricalAnalytics: React.FC<HistoricalAnalyticsProps> = ({ charts
             <Target size={13} />
             <span>Confidence vs Actual</span>
           </button>
+          <button
+            onClick={() => setActiveTab('stations')}
+            className={`fg-tab-btn ${activeTab === 'stations' ? 'active' : ''}`}
+          >
+            <Radio size={13} />
+            <span>IMD Stations & MOS Bias</span>
+          </button>
         </div>
       </div>
 
@@ -87,6 +96,7 @@ export const HistoricalAnalytics: React.FC<HistoricalAnalyticsProps> = ({ charts
           />
         )}
         {activeTab === 'calibration' && <ConfidenceVsActualChart data={charts.confidenceVsActual} />}
+        {activeTab === 'stations' && <StationObservationExplorer stations={stations} />}
       </div>
 
       {/* Chart explanation footer */}

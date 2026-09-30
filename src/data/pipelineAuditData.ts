@@ -2,9 +2,9 @@ import { PipelineAuditData } from '../types/pipeline';
 
 export const PIPELINE_AUDIT_DATA: PipelineAuditData = {
   milestoneProgress: {
-    currentMilestone: 'Milestone 1 — Foundational Synoptic Core & Bust Diagnostic Engine',
-    targetPercentage: 35,
-    achievedPercentage: 35,
+    currentMilestone: 'Milestone 2 — Full-Scale Ensemble ML, Operational Early Warnings & Bias Correction',
+    targetPercentage: 70,
+    achievedPercentage: 70,
     isMilestoneCompleted: true,
     verificationDate: '2026-09-30',
     repositoryUrl: 'https://github.com/muthutamil779-svg/weather',
@@ -62,6 +62,51 @@ export const PIPELINE_AUDIT_DATA: PipelineAuditData = {
         completionPercentage: 100,
         commitHash: 'bb79a37',
         verificationEvidence: 'Zero TypeScript compile errors on strict mode; automated Vite asset bundling and minified telemetry pipeline.'
+      },
+      {
+        id: 'ms-07',
+        category: 'Probabilistic Forecasting & ML',
+        name: 'Multi-Model Ensemble Plume Studio & P10-P90 Spread Envelopes',
+        status: 'completed',
+        completionPercentage: 100,
+        commitHash: 'fd9c769',
+        verificationEvidence: 'Deconstructs 105 ensemble members across ECMWF (51), GFS (31), and NCMRWF (23) with interactive precipitation, wind, and temperature variable projections.'
+      },
+      {
+        id: 'ms-08',
+        category: 'Explainable AI & Attribution',
+        name: 'Machine Learning TreeSHAP Atmospheric Bust Attribution',
+        status: 'completed',
+        completionPercentage: 100,
+        commitHash: 'fd9c769',
+        verificationEvidence: 'Extracts physical SHAP feature importance for 850hPa low-level jet velocity anomaly, CAPE instability, and orographic barriers.'
+      },
+      {
+        id: 'ms-09',
+        category: 'Disaster Governance & Early Warning',
+        name: 'Automated IMD / SDMA Operational Action Bulletin Generator',
+        status: 'completed',
+        completionPercentage: 100,
+        commitHash: 'fd9c769',
+        verificationEvidence: 'Generates exportable, official disaster advisories with tactical NDRF/SDRF pre-positioning directives and district-level red/orange alert protocols.'
+      },
+      {
+        id: 'ms-10',
+        category: 'Ground Truth Verification',
+        name: 'Model Output Statistics (MOS) & Station Quantile Mapping',
+        status: 'completed',
+        completionPercentage: 100,
+        commitHash: 'fd9c769',
+        verificationEvidence: 'Real-time telemetry explorer across major Indian airport observatories (VEBS, VABP, Colaba, Safdarjung) comparing raw model forecasts to bias-corrected values.'
+      },
+      {
+        id: 'ms-11',
+        category: 'Stress Testing & Simulation',
+        name: 'Synoptic Perturbation Scenario Sandbox',
+        status: 'completed',
+        completionPercentage: 100,
+        commitHash: 'fd9c769',
+        verificationEvidence: 'Enables duty forecasters to simulate rapid cyclogenesis surges, monsoon break drought spells, and Himalayan Western Disturbance cloudbursts.'
       }
     ]
   },

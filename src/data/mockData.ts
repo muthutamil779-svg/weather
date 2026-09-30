@@ -404,5 +404,239 @@ export const INITIAL_FORECAST_DATA: ForecastData = {
       { date: '11 Sep', confidence: 76, actualAccuracy: 72 },
       { date: '12 Sep', confidence: 78, actualAccuracy: 74 }
     ]
-  }
+  },
+  ensemblePlumes: [
+    { day: 1, date: '12 Sep', ecmwfMean: 34, gfsMean: 32, ncmrwfMean: 33, p10: 28, p25: 31, p75: 36, p90: 40, observed: 35 },
+    { day: 2, date: '13 Sep', ecmwfMean: 48, gfsMean: 42, ncmrwfMean: 45, p10: 36, p25: 41, p75: 52, p90: 58, observed: 46 },
+    { day: 3, date: '14 Sep', ecmwfMean: 68, gfsMean: 54, ncmrwfMean: 62, p10: 45, p25: 55, p75: 78, p90: 88, observed: 71 },
+    { day: 4, date: '15 Sep', ecmwfMean: 95, gfsMean: 68, ncmrwfMean: 82, p10: 52, p25: 69, p75: 110, p90: 132 },
+    { day: 5, date: '16 Sep', ecmwfMean: 125, gfsMean: 72, ncmrwfMean: 98, p10: 58, p25: 78, p75: 142, p90: 178 },
+    { day: 6, date: '17 Sep', ecmwfMean: 110, gfsMean: 55, ncmrwfMean: 86, p10: 42, p25: 68, p75: 135, p90: 165 },
+    { day: 7, date: '18 Sep', ecmwfMean: 85, gfsMean: 48, ncmrwfMean: 70, p10: 35, p25: 52, p75: 105, p90: 140 },
+    { day: 8, date: '19 Sep', ecmwfMean: 60, gfsMean: 38, ncmrwfMean: 52, p10: 24, p25: 40, p75: 80, p90: 112 },
+    { day: 9, date: '20 Sep', ecmwfMean: 42, gfsMean: 30, ncmrwfMean: 38, p10: 18, p25: 28, p75: 58, p90: 84 },
+    { day: 10, date: '21 Sep', ecmwfMean: 32, gfsMean: 24, ncmrwfMean: 28, p10: 12, p25: 20, p75: 45, p90: 68 }
+  ],
+  modelMetrics: [
+    {
+      modelName: 'ECMWF EPS',
+      institution: 'European Centre for Medium-Range Weather Forecasts',
+      memberCount: 51,
+      gridResolution: '0.1° (~9 km)',
+      rmse24hr: 8.4,
+      trackErrorKm: 42,
+      biasMm: -2.1,
+      divergenceContributionPct: 48
+    },
+    {
+      modelName: 'NCEP GEFS',
+      institution: 'National Centers for Environmental Prediction (NOAA)',
+      memberCount: 31,
+      gridResolution: '0.25° (~28 km)',
+      rmse24hr: 12.8,
+      trackErrorKm: 94,
+      biasMm: -8.4,
+      divergenceContributionPct: 32
+    },
+    {
+      modelName: 'NCMRWF NEPS',
+      institution: 'National Centre for Medium Range Weather Forecasting (India)',
+      memberCount: 23,
+      gridResolution: '12 km (South Asia Regional)',
+      rmse24hr: 9.6,
+      trackErrorKm: 58,
+      biasMm: +1.4,
+      divergenceContributionPct: 20
+    }
+  ],
+  shapValues: [
+    {
+      feature: 'Low-Level Jet Velocity Anomaly (850 hPa)',
+      category: 'kinematic',
+      importance: 86,
+      impactDirection: 'positive_bust_risk',
+      description: 'Sudden 18 m/s jet surge over Arabian Sea advecting moisture beyond model equilibrium.'
+    },
+    {
+      feature: 'Convective Instability (CAPE > 2,600 J/kg)',
+      category: 'thermodynamic',
+      importance: 79,
+      impactDirection: 'positive_bust_risk',
+      description: 'Severe convective energy triggering localized unparameterized mesoscale squalls.'
+    },
+    {
+      feature: 'Western Ghats Orographic Moisture Barrier',
+      category: 'orographic',
+      importance: 72,
+      impactDirection: 'positive_bust_risk',
+      description: 'Steep terrain forcing non-linear precipitation pooling along windward slopes.'
+    },
+    {
+      feature: 'Baroclinic Deepening Rate (Bay of Bengal)',
+      category: 'synoptic',
+      importance: 68,
+      impactDirection: 'positive_bust_risk',
+      description: 'Central pressure dropping 6 hPa / 12h exceeding deterministic global ensemble tracks.'
+    },
+    {
+      feature: 'Mid-Tropospheric Moisture Shear (700-500 hPa)',
+      category: 'thermodynamic',
+      importance: 54,
+      impactDirection: 'negative_bust_risk',
+      description: 'Dry air intrusion from northwest dampening convective bust potential in northern plains.'
+    },
+    {
+      feature: 'Lead-Time Horizon Decay (> Day 4)',
+      category: 'synoptic',
+      importance: 62,
+      impactDirection: 'positive_bust_risk',
+      description: 'Non-linear chaotic amplification escalating track spread past 96 hours.'
+    }
+  ],
+  operationalBulletins: [
+    {
+      id: 'ob-2026-09-12-01',
+      bulletinNumber: 'IMD-SDMA-ALERT/2026/09-BOB02',
+      issueTime: '2026-09-12T06:00:00Z',
+      validUntil: '2026-09-15T06:00:00Z',
+      synopticSituation: 'Depression BOB-02 over Northwest Bay of Bengal intensifying into Deep Depression. High model divergence (ECMWF vs GFS +140km) indicating acute forecast bust risk for Odisha & Madhya Pradesh.',
+      affectedRegions: ['Odisha', 'Madhya Pradesh', 'Maharashtra', 'Chhattisgarh'],
+      severity: 'high',
+      alertColor: '#ef4444',
+      ndrfDeploymentNotice: 'Pre-position 8 NDRF battalions along Mahanadi basin and Narmada river catchments by 18:00 IST.',
+      districtAdvisories: [
+        {
+          district: 'Puri & Jagatsinghpur (Odisha)',
+          warningLevel: 'Red Alert',
+          actionProtocol: 'Total suspension of coastal fishing operations; evacuate low-lying villages within 5km of coastline.'
+        },
+        {
+          district: 'Hoshangabad & Sehore (Madhya Pradesh)',
+          warningLevel: 'Orange Alert',
+          actionProtocol: 'Regulate dam sluice gates; activate 24/7 district flood control rooms; notify relief camp operators.'
+        },
+        {
+          district: 'Raigad & Ratnagiri (Konkan)',
+          warningLevel: 'Orange Alert',
+          actionProtocol: 'Ghat section landslide monitoring; NDRF teams on immediate standby for flash flood rescue.'
+        }
+      ]
+    },
+    {
+      id: 'ob-2026-09-12-02',
+      bulletinNumber: 'IMD-SDMA-ALERT/2026/09-WD01',
+      issueTime: '2026-09-12T08:30:00Z',
+      validUntil: '2026-09-14T12:00:00Z',
+      synopticSituation: 'Western Disturbance approaching Jammu & Kashmir and Himachal Pradesh with high orographic freezing level variance.',
+      affectedRegions: ['Himachal Pradesh', 'Uttarakhand', 'Jammu & Kashmir'],
+      severity: 'medium',
+      alertColor: '#eab308',
+      ndrfDeploymentNotice: 'High-altitude mountain rescue teams placed on 2-hour alert status.',
+      districtAdvisories: [
+        {
+          district: 'Kullu & Kinnaur (Himachal Pradesh)',
+          warningLevel: 'Yellow Alert',
+          actionProtocol: 'Advisory issued to tourists; restrict highway traffic across high passes during night hours.'
+        }
+      ]
+    }
+  ],
+  stationObservations: [
+    {
+      id: 'st-bbsr',
+      name: 'Bhubaneswar Airport (VEBS)',
+      subdivision: 'Odisha',
+      coordinates: [20.24, 85.81],
+      observedRainfallMm: 112.4,
+      rawGfsQpfMm: 64.0,
+      rawEcmwfQpfMm: 135.0,
+      correctedQpfMm: 118.2,
+      biasVarianceMm: -5.8,
+      verificationStatus: 'verified'
+    },
+    {
+      id: 'st-cuttack',
+      name: 'Cuttack Observational Ground',
+      subdivision: 'Odisha',
+      coordinates: [20.46, 85.88],
+      observedRainfallMm: 124.6,
+      rawGfsQpfMm: 72.0,
+      rawEcmwfQpfMm: 142.0,
+      correctedQpfMm: 129.0,
+      biasVarianceMm: -4.4,
+      verificationStatus: 'verified'
+    },
+    {
+      id: 'st-bhopal',
+      name: 'Bhopal Bairagarh (VABP)',
+      subdivision: 'Madhya Pradesh',
+      coordinates: [23.28, 77.33],
+      observedRainfallMm: 88.2,
+      rawGfsQpfMm: 38.0,
+      rawEcmwfQpfMm: 104.0,
+      correctedQpfMm: 85.4,
+      biasVarianceMm: +2.8,
+      verificationStatus: 'verified'
+    },
+    {
+      id: 'st-jabalpur',
+      name: 'Jabalpur Station (VAJB)',
+      subdivision: 'Madhya Pradesh',
+      coordinates: [23.18, 79.95],
+      observedRainfallMm: 95.0,
+      rawGfsQpfMm: 45.0,
+      rawEcmwfQpfMm: 115.0,
+      correctedQpfMm: 98.6,
+      biasVarianceMm: -3.6,
+      verificationStatus: 'verified'
+    },
+    {
+      id: 'st-mumbai-colaba',
+      name: 'Mumbai Colaba Observatory',
+      subdivision: 'Maharashtra (Konkan)',
+      coordinates: [18.90, 72.81],
+      observedRainfallMm: 148.5,
+      rawGfsQpfMm: 92.0,
+      rawEcmwfQpfMm: 175.0,
+      correctedQpfMm: 144.0,
+      biasVarianceMm: +4.5,
+      verificationStatus: 'verified'
+    },
+    {
+      id: 'st-pune',
+      name: 'Pune Shivajinagar AWS',
+      subdivision: 'Maharashtra (Madhya)',
+      coordinates: [18.53, 73.85],
+      observedRainfallMm: 52.4,
+      rawGfsQpfMm: 32.0,
+      rawEcmwfQpfMm: 68.0,
+      correctedQpfMm: 54.1,
+      biasVarianceMm: -1.7,
+      verificationStatus: 'verified'
+    },
+    {
+      id: 'st-delhi-safdarjung',
+      name: 'Delhi Safdarjung Base (VIDD)',
+      subdivision: 'Haryana & Delhi',
+      coordinates: [28.58, 77.20],
+      observedRainfallMm: 14.2,
+      rawGfsQpfMm: 12.0,
+      rawEcmwfQpfMm: 18.0,
+      correctedQpfMm: 15.0,
+      biasVarianceMm: -0.8,
+      verificationStatus: 'verified'
+    },
+    {
+      id: 'st-shimla',
+      name: 'Shimla Ridge IMD AWS',
+      subdivision: 'Himachal Pradesh',
+      coordinates: [31.10, 77.17],
+      observedRainfallMm: 42.6,
+      rawGfsQpfMm: 22.0,
+      rawEcmwfQpfMm: 58.0,
+      correctedQpfMm: 44.8,
+      biasVarianceMm: -2.2,
+      verificationStatus: 'verified'
+    }
+  ]
 };

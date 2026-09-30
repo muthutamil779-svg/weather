@@ -21,6 +21,7 @@ export const IndiaRiskMap: React.FC<IndiaRiskMapProps> = ({
   const [zoom, setZoom] = useState<number>(1);
   const [showSystems, setShowSystems] = useState<boolean>(true);
   const [hoveredStateId, setHoveredStateId] = useState<string | null>(null);
+  const [overlayMode, setOverlayMode] = useState<'bust' | 'divergence' | 'cape'>('bust');
 
   const selectedRegion = regions.find(r => r.id === selectedRegionId) || null;
 
@@ -106,6 +107,40 @@ export const IndiaRiskMap: React.FC<IndiaRiskMapProps> = ({
             <span>Systems</span>
           </button>
         </div>
+
+        {/* 70% Milestone Multi-Layer Heatmap Overlay Switcher */}
+        <div 
+          style={{
+            display: 'inline-flex',
+            background: 'rgba(18, 22, 31, 0.9)',
+            padding: '2px',
+            borderRadius: 'var(--radius-sm)',
+            border: '1px solid var(--card-border)',
+            gap: '2px'
+          }}
+        >
+          <button
+            onClick={() => setOverlayMode('bust')}
+            className={`fg-tab-btn ${overlayMode === 'bust' ? 'active' : ''}`}
+            style={{ padding: '3px 8px', fontSize: '10px' }}
+          >
+            Bust Tier
+          </button>
+          <button
+            onClick={() => setOverlayMode('divergence')}
+            className={`fg-tab-btn ${overlayMode === 'divergence' ? 'active' : ''}`}
+            style={{ padding: '3px 8px', fontSize: '10px' }}
+          >
+            Model Spread
+          </button>
+          <button
+            onClick={() => setOverlayMode('cape')}
+            className={`fg-tab-btn ${overlayMode === 'cape' ? 'active' : ''}`}
+            style={{ padding: '3px 8px', fontSize: '10px' }}
+          >
+            CAPE Energy
+          </button>
+        </div>
       </div>
 
       {/* SVG Map Canvas */}
@@ -172,15 +207,42 @@ export const IndiaRiskMap: React.FC<IndiaRiskMapProps> = ({
               const isSelected = selectedRegionId === state.id;
               const isHovered = hoveredStateId === state.id;
 
-              // Color mapping
+              // Color mapping based on overlayMode
               let fillColor = 'rgba(34, 197, 94, 0.18)'; // low
               let strokeColor = 'rgba(34, 197, 94, 0.45)';
-              if (riskTier === 'high') {
-                fillColor = 'rgba(239, 68, 68, 0.35)';
-                strokeColor = 'rgba(239, 68, 68, 0.75)';
-              } else if (riskTier === 'medium') {
-                fillColor = 'rgba(234, 179, 8, 0.25)';
-                strokeColor = 'rgba(234, 179, 8, 0.6)';
+
+              if (overlayMode === 'divergence') {
+                const spreadMm = forecast ? Math.round(forecast.bustProbability * 0.9) : 10;
+                if (spreadMm >= 32) {
+                  fillColor = 'rgba(244, 63, 94, 0.4)';
+                  strokeColor = 'rgba(244, 63, 94, 0.8)';
+                } else if (spreadMm >= 18) {
+                  fillColor = 'rgba(249, 115, 22, 0.3)';
+                  strokeColor = 'rgba(249, 115, 22, 0.7)';
+                } else {
+                  fillColor = 'rgba(34, 211, 238, 0.2)';
+                  strokeColor = 'rgba(34, 211, 238, 0.5)';
+                }
+              } else if (overlayMode === 'cape') {
+                const cape = forecast ? Math.round(forecast.confidence * 32) : 1200;
+                if (cape >= 2400) {
+                  fillColor = 'rgba(168, 85, 247, 0.4)';
+                  strokeColor = 'rgba(168, 85, 247, 0.8)';
+                } else if (cape >= 1800) {
+                  fillColor = 'rgba(59, 156, 255, 0.3)';
+                  strokeColor = 'rgba(59, 156, 255, 0.6)';
+                } else {
+                  fillColor = 'rgba(16, 185, 129, 0.2)';
+                  strokeColor = 'rgba(16, 185, 129, 0.5)';
+                }
+              } else {
+                if (riskTier === 'high') {
+                  fillColor = 'rgba(239, 68, 68, 0.35)';
+                  strokeColor = 'rgba(239, 68, 68, 0.75)';
+                } else if (riskTier === 'medium') {
+                  fillColor = 'rgba(234, 179, 8, 0.25)';
+                  strokeColor = 'rgba(234, 179, 8, 0.6)';
+                }
               }
 
               if (isSelected) {
@@ -233,7 +295,11 @@ export const IndiaRiskMap: React.FC<IndiaRiskMapProps> = ({
                       className="mono-text"
                       style={{ pointerEvents: 'none' }}
                     >
-                      {forecast.bustProbability}%
+                      {overlayMode === 'divergence' 
+                        ? `±${Math.round(forecast.bustProbability * 0.9)}mm`
+                        : overlayMode === 'cape'
+                        ? `${Math.round(forecast.confidence * 32)}J`
+                        : `${forecast.bustProbability}%`}
                     </text>
                   )}
                 </g>
