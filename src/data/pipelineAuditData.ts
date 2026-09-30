@@ -15,7 +15,7 @@ export const PIPELINE_AUDIT_DATA: PipelineAuditData = {
         name: 'Dual-Engine 3D WebGL Globe & 2D Vector SVG Fallback',
         status: 'completed',
         completionPercentage: 100,
-        commitHash: 'e80f1f9',
+        commitHash: 'bb79a37',
         verificationEvidence: 'Three.js / React Three Fiber globe with dynamic synoptic cyclonic markers and SVG India geographic projection with accessible pattern overlay.'
       },
       {
@@ -24,7 +24,7 @@ export const PIPELINE_AUDIT_DATA: PipelineAuditData = {
         name: 'Tropical Dynamics Bust Probability Scoring Algorithm',
         status: 'completed',
         completionPercentage: 100,
-        commitHash: 'e80f1f9',
+        commitHash: 'bb79a37',
         verificationEvidence: 'Coriolis weakness parameterization, convective instability index (CAPE), and lead-time decay modeling across 10-day forecast horizon.'
       },
       {
@@ -33,7 +33,7 @@ export const PIPELINE_AUDIT_DATA: PipelineAuditData = {
         name: 'Multi-Tier Risk HUD with Dual-Channel Sensory Cues',
         status: 'completed',
         completionPercentage: 100,
-        commitHash: 'e80f1f9',
+        commitHash: 'bb79a37',
         verificationEvidence: 'Non-blocking diagnostic HUD with high-contrast text tags, geometric status glyphs, and WCAG 2.1 AA compliant color pairings.'
       },
       {
@@ -42,7 +42,7 @@ export const PIPELINE_AUDIT_DATA: PipelineAuditData = {
         name: 'Observed vs. Predicted Verification Error Charting',
         status: 'completed',
         completionPercentage: 100,
-        commitHash: 'e80f1f9',
+        commitHash: 'bb79a37',
         verificationEvidence: 'Recharts-driven historical error trends, precipitation scatter, temperature/wind variance, and confidence vs actual accuracy curves.'
       },
       {
@@ -51,7 +51,7 @@ export const PIPELINE_AUDIT_DATA: PipelineAuditData = {
         name: 'Simulation & Assimilation Cycle Client Architecture',
         status: 'completed',
         completionPercentage: 100,
-        commitHash: 'e80f1f9',
+        commitHash: 'bb79a37',
         verificationEvidence: 'Mock / RESTful API service abstraction with dynamic cycle assimilation simulation and live state mutations.'
       },
       {
@@ -60,7 +60,7 @@ export const PIPELINE_AUDIT_DATA: PipelineAuditData = {
         name: 'Production Build Verification & Oxlint Type Safety',
         status: 'completed',
         completionPercentage: 100,
-        commitHash: 'e80f1f9',
+        commitHash: 'bb79a37',
         verificationEvidence: 'Zero TypeScript compile errors on strict mode; automated Vite asset bundling and minified telemetry pipeline.'
       }
     ]
